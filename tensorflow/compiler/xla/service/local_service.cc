@@ -102,6 +102,7 @@ LocalService::CompileExecutables(
     const XlaComputation& computation,
     const absl::Span<const Shape* const> argument_layouts,
     const ExecutableBuildOptions& build_options) {
+  std::cout << " --- LocalService::CompileExecutables\n";
   const HloModuleProto& proto = computation.proto();
   TF_RET_CHECK(proto.has_host_program_shape());
   ProgramShape program_shape(proto.host_program_shape());
@@ -161,6 +162,7 @@ LocalService::CompileExecutables(
   // single partition computations are built using `BuildExecutables`, fix it,
   // and remove this special case (provided the performance if similar).
   if (build_options.num_partitions() == 1) {
+    std::cout << "build_options.num_partitions() == 1\n";
     TF_ASSIGN_OR_RETURN(std::unique_ptr<Executable> executable,
                         BuildExecutable(proto, std::move(module_config),
                                         execute_backend_.get(), executor,
@@ -171,6 +173,7 @@ LocalService::CompileExecutables(
     executables.push_back(std::move(executable));
     return executables;
   } else {
+    std::cout << "build_options.num_partitions() != 1\n";
     std::vector<std::unique_ptr<HloModuleConfig>> module_configs;
     module_configs.push_back(std::move(module_config));
     // BuildExecutables uses the executors length to determine the number of

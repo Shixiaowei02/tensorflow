@@ -841,6 +841,7 @@ static Status CompileModuleToLlvmIrImpl(
     const HloDataflowAnalysis::CanShareBuffer& can_share_buffer_function,
     int pointer_size, const HloProfileIndexMap* profile_index_map,
     CompileModuleResults* results) {
+  LOG(INFO) << "==== CompileModuleToLlvmIrImpl ===";
   results->llvm_module = absl::make_unique<llvm::Module>("", *llvm_context);
   results->llvm_module->setTargetTriple(target_triple);
   results->llvm_module->setDataLayout(data_layout);
@@ -1145,6 +1146,7 @@ GpuCompiler::CompileToTargetBinary(const HloModuleConfig& module_config,
 StatusOr<std::unique_ptr<Executable>> GpuCompiler::RunBackend(
     std::unique_ptr<HloModule> module, se::StreamExecutor* stream_exec,
     const CompileOptions& options) {
+  std::cout << "---- GpuCompiler::RunBackend\n";
   XLA_SCOPED_LOGGING_TIMER("GpuCompiler::RunBackend");
   std::string slow_compilation_msg =
       absl::StrCat("Compiling module ", module->name());
@@ -1186,10 +1188,11 @@ StatusOr<std::unique_ptr<Executable>> GpuCompiler::RunBackend(
   std::string ir_module_string_before_opt;
   const bool embed_ir_in_executable =
       module->config().debug_options().xla_embed_ir_in_executable();
-  if (embed_ir_in_executable) {
+  // if (embed_ir_in_executable) {
     ir_module_string_before_opt =
         llvm_ir::DumpModuleToString(*compile_module_results.llvm_module);
-  }
+  // }
+  std::cout << "\n\n\nir_module_string_before_opt: \n" << ir_module_string_before_opt << '\n';
 
   llvm_ir::DumpIrIfEnabled(*module, *compile_module_results.llvm_module,
                            /*optimized=*/false);

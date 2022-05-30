@@ -242,6 +242,7 @@ StatusOr<py::object> PyClient::BufferFromPyval(
 
 StatusOr<std::shared_ptr<PyExecutable>> PyClient::Compile(
     const XlaComputation& computation, CompileOptions options) {
+  std::cout << "--- PyClient::Compile\n";
   std::unique_ptr<PjRtExecutable> executable;
   absl::optional<std::string> fingerprint;
   {

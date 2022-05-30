@@ -313,7 +313,7 @@ def _tf_repositories():
         sha256 = "31da5562f44c5f15d63340a09a4fd62b48c45620cd302f77a6d9acf0077879bd",
         strip_prefix = "giflib-5.2.1",
         system_build_file = "//third_party/systemlibs:gif.BUILD",
-        urls = tf_mirror_urls("https://pilotfiber.dl.sourceforge.net/project/giflib/giflib-5.2.1.tar.gz"),
+        urls = tf_mirror_urls("https://fossies.org/linux/misc/giflib-5.2.1.tar.gz"),
     )
 
     tf_http_archive(
@@ -566,7 +566,7 @@ def _tf_repositories():
         sha256 = "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
         strip_prefix = "zlib-1.2.11",
         system_build_file = "//third_party/systemlibs:zlib.BUILD",
-        urls = tf_mirror_urls("https://zlib.net/zlib-1.2.11.tar.gz"),
+        urls = tf_mirror_urls("https://zlib.net/fossils/zlib-1.2.11.tar.gz"),
     )
 
     # LINT.IfChange

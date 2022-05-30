@@ -295,6 +295,7 @@ StatusOr<std::vector<std::unique_ptr<Executable>>> Service::BuildExecutables(
   VLOG(1) << "Computations:";
   for (const HloModuleProto* proto : module_protos) {
     VLOG(1) << proto->name();
+    std::cout << proto->name() << '\n';
   }
 
   CHECK_EQ(module_protos.size(), module_configs.size());
@@ -311,10 +312,12 @@ StatusOr<std::vector<std::unique_ptr<Executable>>> Service::BuildExecutables(
 
   std::vector<std::unique_ptr<Executable>> executables;
   if (!run_backend_only) {
+    std::cout << "=== !run_backend_only\n";
     TF_ASSIGN_OR_RETURN(executables, backend->compiler()->Compile(
                                          std::move(module_group),
                                          std::move(executors), options));
   } else {
+    std::cout << "=== run_backend_only\n";
     auto modules = module_group->ConsumeModules();
     for (std::unique_ptr<HloModule>& module : modules) {
       TF_ASSIGN_OR_RETURN(std::unique_ptr<Executable> executable,
@@ -748,6 +751,7 @@ StatusOr<std::unique_ptr<Executable>> Service::BuildExecutable(
     std::unique_ptr<HloModuleConfig> module_config, Backend* backend,
     se::StreamExecutor* executor, const Compiler::CompileOptions& options,
     bool run_backend_only) {
+  std::cout << "---- Service::BuildExecutable, run_backend_only = " << run_backend_only << '\n';
   VLOG(1) << StrFormat(
       "BuildExecutable on service %p with serialized module proto: %s", this,
       module_proto.name());

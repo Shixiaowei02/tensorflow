@@ -1729,6 +1729,7 @@ PjRtStreamExecutorExecutable::PjRtStreamExecutorExecutable(
       addressable_device_logical_ids_(
           std::move(addressable_device_logical_ids)),
       addressable_devices_(std::move(addressable_devices)) {
+  std::cout << "---- PjRtStreamExecutorExecutable::PjRtStreamExecutorExecutable\n";
   TransferManager* transfer_manager =
       client_->client()->backend().transfer_manager();
   executables_.reserve(executables.size());
@@ -2380,6 +2381,7 @@ PjRtStreamExecutorClient::GetExecutableExtras(CompileOptions* options) {
 
 StatusOr<std::unique_ptr<PjRtExecutable>> PjRtStreamExecutorClient::Compile(
     const XlaComputation& computation, CompileOptions options) {
+  std::cout << "---- PjRtStreamExecutorClient::Compile\n";
   tensorflow::profiler::TraceMe traceme("PjRtStreamExecutorClient::Compile");
   VLOG(1) << "PjRtStreamExecutorClient::Compile";
 
