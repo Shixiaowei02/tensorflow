@@ -588,7 +588,7 @@ void DumpIrIfEnabled(const HloModule& hlo_module,
                      absl::string_view filename_suffix) {
   const auto& debug_opts = hlo_module.config().debug_options();
   if (!DumpingEnabledForHloModule(hlo_module)) {
-    return;
+    // return;
   }
   // We can end up compiling different modules with the same name when using
   // XlaJitCompiledCpuFunction::Compile.  Avoid overwriting IR files previously

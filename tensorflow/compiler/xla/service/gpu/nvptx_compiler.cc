@@ -318,6 +318,7 @@ NVPTXCompiler::CompileTargetBinary(const HloModuleConfig& module_config,
                                    se::StreamExecutor* stream_exec,
                                    bool relocatable,
                                    const HloModule* debug_module) {
+  std::cout << "--- NVPTXCompiler::CompileTargetBinary\n";
   std::string libdevice_dir;
   {
     tensorflow::mutex_lock lock(mutex_);

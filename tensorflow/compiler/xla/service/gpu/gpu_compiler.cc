@@ -994,8 +994,8 @@ GpuCompiler::CompileToTargetBinary(const HloModuleConfig& module_config,
         DumpingEnabledForHloModule(debug_module ? debug_module->name() : "",
                                    module_config.debug_options());
 
-    if (should_dump) {
-      if (debug_module) {
+    if (true) { // if (should_dump) {
+      if (true) { // if (debug_module) {
         if (shard_number.has_value()) {
           llvm_ir::DumpIrIfEnabled(*debug_module, *llvm_module,
                                    /*optimized=*/true,
