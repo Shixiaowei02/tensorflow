@@ -275,7 +275,7 @@ static absl::optional<std::string> DumpToFileInDirOrStdoutImpl(
   // if (opts.dumping_to_stdout()) {
     std::cout << "*** Begin " << filename << " ***\n"
               << contents << "\n*** End " << filename << " ***" << std::endl;
-    return absl::nullopt;
+    // return absl::nullopt;
   }
 
   // Otherwise, dump to a file.
@@ -287,6 +287,7 @@ static std::vector<std::string> DumpHloModuleImpl(
     const HloModule& module, const BufferAssignment* buffer_assn,
     const HloExecutionProfile* profile, string_view prefix, string_view suffix,
     const CanonicalDebugOptions& opts) {
+  std::cout << "---- DumpHloModuleImpl\n";
   std::string filename = FilenameFor(module, prefix, suffix);
 
   std::vector<absl::optional<std::string>> file_paths;
@@ -485,6 +486,7 @@ void DumpToFileInDirOrStdout(const HloModule& module, string_view file_prefix,
 void DumpToFileInDirOrStdout(const DebugOptions& debug_options, int unique_id,
                              string_view module_name, string_view file_prefix,
                              string_view file_suffix, string_view contents) {
+  std::cout << "-- DumpToFileInDirOrStdout" << module_name << '\n';
   DumpToFileInDirOrStdoutImpl(
       FilenameFor(unique_id, module_name, file_prefix, file_suffix), contents,
       CanonicalDebugOptions(debug_options));
@@ -493,7 +495,8 @@ void DumpToFileInDirOrStdout(const DebugOptions& debug_options, int unique_id,
 void DumpToFileInDirOrStdout(const HloModule& module, string_view file_prefix,
                              mlir::Operation* op) {
   CanonicalDebugOptions opts(module.config().debug_options());
-  if (opts.dumping_to_stdout()) return op->dump();
+  // if (opts.dumping_to_stdout()) return op->dump();
+  return op->dump();
 
   auto file_path =
       GetDumpFilePath(FilenameFor(module, file_prefix, "mlir"), opts);
@@ -547,7 +550,8 @@ void DumpHloModuleIfEnabled(const HloModule& module,
                             const BufferAssignment& buffer_assn,
                             string_view name) {
   CanonicalDebugOptions opts(module.config().debug_options());
-  if (opts.should_dump_module(module.name())) {
+  if (true) {
+  //if (opts.should_dump_module(module.name())) {
     DumpHloModuleImpl(module, &buffer_assn, /*profile=*/nullptr,
                       TimestampFor(module), name, opts);
   }
@@ -557,10 +561,10 @@ void DumpHloModuleIfEnabled(const HloModule& module,
                             const HloExecutionProfile& profile,
                             string_view name) {
   CanonicalDebugOptions opts(module.config().debug_options());
-  // if (opts.should_dump_module(module.name())) {
+  if (opts.should_dump_module(module.name())) {
     DumpHloModuleImpl(module, /*buffer_assn=*/nullptr, &profile,
                       TimestampFor(module), name, opts);
- // }
+  }
 }
 
 bool DumpingEnabledForHloModule(string_view hlo_module_name,

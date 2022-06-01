@@ -869,8 +869,8 @@ static Status CompileModuleToLlvmIrImpl(
           /*colorer=*/BufferAssigner::DefaultColorer(),
           /*must_not_live_out=*/{}, can_share_buffer_function));
 
-  std::cout << "Buffer Assignment Stats "
-          << results->buffer_assignment->GetStats().ToString() << '\n';
+  // std::cout << "Buffer Assignment Stats "
+  //        << results->buffer_assignment->GetStats().ToString() << '\n';
   DumpHloModuleIfEnabled(*hlo_module, *results->buffer_assignment,
                          absl::StrCat("sm_", cuda_compute_capability.ToString(),
                                       "_gpu_after_optimizations"));
@@ -888,9 +888,13 @@ static Status CompileModuleToLlvmIrImpl(
 
   results->module_name = mlir::GetNameFromLoc(mlir_module->getLoc());
 
-  if (DumpingEnabledForHloModule(*hlo_module)) {
+  if (true) {
+  // if (DumpingEnabledForHloModule(*hlo_module)) {
     DumpToFileInDirOrStdout(*hlo_module, "lmhlo", mlir_module.get());
   }
+
+  std::cout << " --- hlo_module->entry_computation()->name() = " << 
+    hlo_module->entry_computation()->name() << '\n';
 
   auto entry_function = mlir::cast<mlir::FuncOp>(
       mlir_module->lookupSymbol(hlo_module->entry_computation()->name()));
@@ -1148,7 +1152,7 @@ StatusOr<std::unique_ptr<Executable>> GpuCompiler::RunBackend(
     std::unique_ptr<HloModule> module, se::StreamExecutor* stream_exec,
     const CompileOptions& options) {
   std::cout << "---- GpuCompiler::RunBackend\n";
-  std::cout << module->ToString() << '\n';
+  // std::cout << module->ToString() << '\n';
   XLA_SCOPED_LOGGING_TIMER("GpuCompiler::RunBackend");
   std::string slow_compilation_msg =
       absl::StrCat("Compiling module ", module->name());
