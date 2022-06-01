@@ -752,6 +752,7 @@ StatusOr<std::unique_ptr<Executable>> Service::BuildExecutable(
     se::StreamExecutor* executor, const Compiler::CompileOptions& options,
     bool run_backend_only) {
   std::cout << "---- Service::BuildExecutable, run_backend_only = " << run_backend_only << '\n';
+  std::cout << "     module_proto.name() = " << module_proto.name() << '\n';
   VLOG(1) << StrFormat(
       "BuildExecutable on service %p with serialized module proto: %s", this,
       module_proto.name());

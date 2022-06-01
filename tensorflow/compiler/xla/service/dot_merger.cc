@@ -210,6 +210,7 @@ StatusOr<HloInstruction*> TryMergeSameOperand(HloInstruction* a,
   TF_RETURN_IF_ERROR(b->ReplaceAllUsesWith(new_b));
   new_b->set_metadata(b->metadata());
 
+  std::cout << "---- new dot name = " << new_dot->name() << '\n';
   return new_dot;
 }
 
@@ -357,6 +358,7 @@ StatusOr<bool> MergeDots(HloComputation* comp, int64_t max_size_to_merge) {
 }  // anonymous namespace
 
 StatusOr<bool> DotMerger::Run(HloModule* module) {
+  std::cout << "---- DotMerger::Run\n";
   bool changed = false;
   for (HloComputation* comp : module->MakeNonfusionComputations()) {
     TF_ASSIGN_OR_RETURN(bool changed_computation,

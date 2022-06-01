@@ -736,6 +736,7 @@ Status GpuCompiler::OptimizeHloPostLayoutAssignment(
 StatusOr<std::unique_ptr<HloModule>> GpuCompiler::RunHloPasses(
     std::unique_ptr<HloModule> module, se::StreamExecutor* stream_exec,
     const CompileOptions& options) {
+  std::cout << "GpuCompiler::RunHloPasses\n";
   // We dump the post-optimization HLO in RunBackend so no need to dump it here.
   XLA_SCOPED_LOGGING_TIMER("GpuCompiler::RunHloPasses");
   tensorflow::profiler::TraceMe activity(
@@ -1147,6 +1148,7 @@ StatusOr<std::unique_ptr<Executable>> GpuCompiler::RunBackend(
     std::unique_ptr<HloModule> module, se::StreamExecutor* stream_exec,
     const CompileOptions& options) {
   std::cout << "---- GpuCompiler::RunBackend\n";
+  std::cout << module->ToString() << '\n';
   XLA_SCOPED_LOGGING_TIMER("GpuCompiler::RunBackend");
   std::string slow_compilation_msg =
       absl::StrCat("Compiling module ", module->name());
@@ -1192,7 +1194,7 @@ StatusOr<std::unique_ptr<Executable>> GpuCompiler::RunBackend(
     ir_module_string_before_opt =
         llvm_ir::DumpModuleToString(*compile_module_results.llvm_module);
   // }
-  std::cout << "\n\n\nir_module_string_before_opt: \n" << ir_module_string_before_opt << '\n';
+  // std::cout << "\n\n\nir_module_string_before_opt: \n" << ir_module_string_before_opt << '\n';
 
   llvm_ir::DumpIrIfEnabled(*module, *compile_module_results.llvm_module,
                            /*optimized=*/false);

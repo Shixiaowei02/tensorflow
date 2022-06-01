@@ -172,6 +172,7 @@ StatusOr<bool> HloPassPipeline::RunPassesInternal(
     std::string pass_name = std::string(pass->name());
     VLOG(1) << "  HLO pass " << pass_name;
     VLOG(2) << "  Module hash " << hlo->Hash();
+    std::cout << "pass name = " << pass_name << '\n';
     if (!pass->IsPassPipeline()) {
       compilation_stats_->StartPass(pass_name);
     }
@@ -188,7 +189,9 @@ StatusOr<bool> HloPassPipeline::RunPassesInternal(
     RecordPassEndMetadata(*hlo, pass_name, pass_changed);
     changed |= pass_changed;
     if (pass_changed) {
+      std::cout << "===== Pass caused changes " << pass->name() << '\n';
       VLOG(3) << "  Pass caused changes " << pass->name();
+      std::cout << "after pass hlo: " << hlo->ToString() << '\n';
     }
     TF_RETURN_IF_ERROR(RunInvariantCheckers(hlo, pass_name));
     if (!pass->IsPassPipeline()) {
