@@ -271,7 +271,8 @@ static absl::optional<std::string> DumpToFileInDirOrStdoutImpl(
     string_view filename, string_view contents,
     const CanonicalDebugOptions& opts) {
   // Dump to stdout if that's called for.
-  if (opts.dumping_to_stdout()) {
+  if (true) {
+  // if (opts.dumping_to_stdout()) {
     std::cout << "*** Begin " << filename << " ***\n"
               << contents << "\n*** End " << filename << " ***" << std::endl;
     return absl::nullopt;
@@ -290,7 +291,8 @@ static std::vector<std::string> DumpHloModuleImpl(
 
   std::vector<absl::optional<std::string>> file_paths;
 
-  if (opts.dump_as_text) {
+  // if (opts.dump_as_text) {
+  if (true) {
     HloPrintOptions print_options;
     print_options.set_print_backend_config(true);
     print_options.set_print_metadata(opts.dump_hlo_metadata);
@@ -328,7 +330,8 @@ static std::vector<std::string> DumpHloModuleImpl(
                      rendered_graph.status().ToString());
   };
 
-  if (opts.dump_as_dot) {
+  if (true) {
+  // if (opts.dump_as_dot) {
     file_paths.push_back(
         DumpToFileInDirImpl(StrFormat("%s.dot", filename),
                             render_graph(RenderedGraphFormat::kDot), opts));
@@ -554,10 +557,10 @@ void DumpHloModuleIfEnabled(const HloModule& module,
                             const HloExecutionProfile& profile,
                             string_view name) {
   CanonicalDebugOptions opts(module.config().debug_options());
-  if (opts.should_dump_module(module.name())) {
+  // if (opts.should_dump_module(module.name())) {
     DumpHloModuleImpl(module, /*buffer_assn=*/nullptr, &profile,
                       TimestampFor(module), name, opts);
-  }
+ // }
 }
 
 bool DumpingEnabledForHloModule(string_view hlo_module_name,

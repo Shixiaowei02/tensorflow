@@ -842,7 +842,7 @@ static Status CompileModuleToLlvmIrImpl(
     const HloDataflowAnalysis::CanShareBuffer& can_share_buffer_function,
     int pointer_size, const HloProfileIndexMap* profile_index_map,
     CompileModuleResults* results) {
-  LOG(INFO) << "==== CompileModuleToLlvmIrImpl ===";
+  std::cout << "==== CompileModuleToLlvmIrImpl ===\n";
   results->llvm_module = absl::make_unique<llvm::Module>("", *llvm_context);
   results->llvm_module->setTargetTriple(target_triple);
   results->llvm_module->setDataLayout(data_layout);
@@ -869,8 +869,8 @@ static Status CompileModuleToLlvmIrImpl(
           /*colorer=*/BufferAssigner::DefaultColorer(),
           /*must_not_live_out=*/{}, can_share_buffer_function));
 
-  VLOG(1) << "Buffer Assignment Stats "
-          << results->buffer_assignment->GetStats().ToString();
+  std::cout << "Buffer Assignment Stats "
+          << results->buffer_assignment->GetStats().ToString() << '\n';
   DumpHloModuleIfEnabled(*hlo_module, *results->buffer_assignment,
                          absl::StrCat("sm_", cuda_compute_capability.ToString(),
                                       "_gpu_after_optimizations"));
@@ -1194,7 +1194,7 @@ StatusOr<std::unique_ptr<Executable>> GpuCompiler::RunBackend(
     ir_module_string_before_opt =
         llvm_ir::DumpModuleToString(*compile_module_results.llvm_module);
   // }
-  // std::cout << "\n\n\nir_module_string_before_opt: \n" << ir_module_string_before_opt << '\n';
+  // std::cout << "ir_module_string_before_opt: \n" << ir_module_string_before_opt << '\n';
 
   llvm_ir::DumpIrIfEnabled(*module, *compile_module_results.llvm_module,
                            /*optimized=*/false);

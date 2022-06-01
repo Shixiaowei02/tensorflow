@@ -290,6 +290,7 @@ StatusOr<std::vector<std::unique_ptr<Executable>>> Service::BuildExecutables(
     std::vector<std::unique_ptr<HloModuleConfig>> module_configs,
     Backend* backend, std::vector<std::vector<se::StreamExecutor*>> executors,
     const Compiler::CompileOptions& options, bool run_backend_only) {
+  std::cout << " --- Service::BuildExecutables\n";
   VLOG(1) << StrFormat("BuildExecutable on service %p", this);
 
   VLOG(1) << "Computations:";
